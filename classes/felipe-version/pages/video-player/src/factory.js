@@ -12,7 +12,6 @@ async function getWorker() {
     return worker;
   }
   console.warn("webWorkers NOT supported");
-
   const mockWorker = {
     message(msg) {},
     async postMessage() {},
@@ -21,17 +20,19 @@ async function getWorker() {
 }
 
 const worker = await getWorker();
-worker.postMessage('hello from factory')
-const camera = Camera.init();
 
+
+const camera = Camera.init();
 const [rootPath] = window.location.href.split("/pages/");
 const factory = {
   async initialize() {
     return Controller.initialize({
-      view: new View({}),
+      view: new View(),
       service: new Service({}),
+      worker
     });
   },
 };
-
+console.log(worker)
+worker.postMessage('hello from factory')
 export default factory;
