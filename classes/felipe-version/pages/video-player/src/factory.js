@@ -20,19 +20,17 @@ async function getWorker() {
 }
 
 const worker = await getWorker();
+const camera = await Camera.init();
 
-
-const camera = Camera.init();
 const [rootPath] = window.location.href.split("/pages/");
 const factory = {
   async initialize() {
     return Controller.initialize({
       view: new View(),
-      service: new Service({}),
-      worker
+      worker,
+      camera,
     });
   },
 };
-console.log(worker)
-worker.postMessage('hello from factory')
+
 export default factory;

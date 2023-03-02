@@ -43,7 +43,7 @@ export default class Camera {
 
     camera.video.play();
 
-    console.log({ camera, stream, navigator })
+    // console.log({ camera, stream, navigator })
     return camera;
   }
 }

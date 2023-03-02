@@ -6,7 +6,7 @@ const cardListWorker = new Worker("./src/workers/cardListWorker.js", {
   type: "module",
 });
 
-console.log(cardListWorker);
+// console.log(cardListWorker);
 
 cardListWorker.postMessage({ hello: "hello" });
 

@@ -19,16 +19,10 @@ await service.loadModel();
 console.log("tf model loaded");
 postMessage("READY");
 
-onmessage = (msg) => {
-  const { data } = msg;
-  console.log("worker says", data, {
-    globalThis,
-    self,
-    faceLandmarksDetection,
-    SVGFEComponentTransferElement,
-  });
+onmessage = async ({ data: video }) => {
 
-  postMessage({
-    ok: "ok",
-  });
+  const blinked = await service.hasBlinked(video);
+  if (!blinked) return;
+
+  postMessage({ blinked });
 };

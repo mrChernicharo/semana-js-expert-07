@@ -12,4 +12,18 @@ export default class Service {
       { maxFaces: 1 }
     );
   }
+
+  async hasBlinked(video) {
+    const preditions = await this.#estimateFaces(video);
+    console.log({ preditions });
+  }
+
+  #estimateFaces(video) {
+    return this.#model.estimateFaces({
+      input: video,
+      flipHorizontal: true,
+      returnTensors: false,
+      predictIrises: true,
+    });
+  }
 }
