@@ -28,6 +28,7 @@ export default class Camera {
 
     camera.video.srcObject = stream;
 
+    // video dimensions
     camera.video.height = 440;
     camera.video.width = 720;
 
@@ -42,7 +43,7 @@ export default class Camera {
 
     camera.video.play();
 
-    console.log({camera, stream, navigator })
+    console.log({ camera, stream, navigator })
     return camera;
   }
 }
