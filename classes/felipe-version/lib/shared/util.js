@@ -15,3 +15,16 @@ export function supportsWorkerType() {
     return supports;
   }
 }
+
+export function prepareRunChecker({ timeDelay }) {
+  let lastEvent = Date.now();
+
+  return {
+    shouldRun() {
+      const result = (Date.now() - lastEvent) > timeDelay;
+      if (result) lastEvent = Date.now();
+
+      return result;
+    },
+  };
+}
