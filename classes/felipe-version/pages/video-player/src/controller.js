@@ -56,11 +56,11 @@ export default class Controller {
   }
 
   log(text) {
-    this.#view.log(`${text}`);
+    const times = `   - blinked ${this.#blinkCounter} times`;
+    this.#view.log(`${text} ${times}`);
   }
 
   onBtnStart() {
-    this.log("detecting...");
     this.loop();
     this.#blinkCounter = 0;
   }

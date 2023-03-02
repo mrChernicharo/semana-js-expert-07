@@ -12,10 +12,40 @@ async function getWorker() {
     return worker;
   }
   console.warn("webWorkers NOT supported");
+  console.log("importing libraries...");
+
+  // prettier-ignore
+  await import ("https://unpkg.com/@tensorflow/tfjs-core@2.4.0/dist/tf-core.js");
+  // prettier-ignore
+  await import ("https://unpkg.com/@tensorflow/tfjs-converter@2.4.0/dist/tf-converter.js");
+  // prettier-ignore
+  await import ("https://unpkg.com/@tensorflow/tfjs-backend-webgl@2.4.0/dist/tf-backend-webgl.js");
+  // prettier-ignore
+  await import ("https://unpkg.com/@tensorflow-models/face-landmarks-detection@0.0.1/dist/face-landmarks-detection.js");
+
+  console.log("libraries loaded!");
+
+  const service = new Service({
+    faceLandmarksDetection: window.faceLandmarksDetection,
+  });
+
   const mockWorker = {
-    message(msg) {},
-    async postMessage() {},
+    async postMessage(video) {
+      const blinked = await service.hasBlinked(video);
+      if (!blinked) return;
+      workerMock.onmessage({ data: { blinked } });
+    },
+    onmessage(msg) {}, // will override in the controller
   };
+
+  console.log("loading tf model");
+  await service.loadModel();
+  console.log("tf model loaded");
+
+  setTimeout(() => {
+    mockWorker.postMessage({ data: "READY" });
+  }, 1000);
+
   return mockWorker;
 }
 
