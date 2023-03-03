@@ -20,7 +20,8 @@ export default class Service {
 
   async hasBlinked(video) {
     const predictions = await this.#estimateFaces(video);
-    if (!predictions.length) return false;
+    const defaultResult =  { left: false, right: false }
+    if (!predictions.length) return defaultResult;
 
     for (const prediction of predictions) {
       // Right eye parameters
@@ -33,12 +34,15 @@ export default class Service {
       const leftEAR = this.getEAR(upperLeft, lowerLeft);
 
       // True if the eye is closed
-      const blinked = leftEAR <= EAR_THRESHOLD && rightEAR <= EAR_THRESHOLD;
-      if (!blinked) continue;
+      const leftEyeClosed = leftEAR <= EAR_THRESHOLD;
+      const rightEyeClosed = rightEAR <= EAR_THRESHOLD;
+      const blinked = leftEyeClosed || rightEyeClosed;
+
       if (!shouldRun()) continue;
-      return true;
+      if (!blinked) continue;
+      return { left: leftEyeClosed, right: rightEyeClosed };
     }
-    return false;
+    return defaultResult;
   }
 
   #estimateFaces(video) {

@@ -31,9 +31,10 @@ async function getWorker() {
 
   const mockWorker = {
     async postMessage(video) {
-      const blinked = await service.hasBlinked(video);
-      if (!blinked) return;
-      workerMock.onmessage({ data: { blinked } });
+      const { left, right } = await service.hasBlinked(video);
+      // const blinked = left || right
+      // if (!blinked) return;
+      workerMock.onmessage({ data: { left, right } });
     },
     onmessage(msg) {}, // will override in the controller
   };
@@ -44,7 +45,7 @@ async function getWorker() {
 
   setTimeout(() => {
     mockWorker.postMessage({ data: "READY" });
-  }, 1000);
+  }, 500);
 
   return mockWorker;
 }

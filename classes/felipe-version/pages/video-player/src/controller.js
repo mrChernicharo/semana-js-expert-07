@@ -2,7 +2,7 @@ export default class Controller {
   #view;
   #worker;
   #camera;
-  #blinkCounter = 0;
+  #eyeStateString = "";
   constructor({ view, worker, camera }) {
     this.#view = view;
     this.#camera = camera;
@@ -27,10 +27,14 @@ export default class Controller {
         return;
       }
 
-      const blinked = msg.data.blinked;
-      this.#blinkCounter += 1;
-      this.#view.togglePlayVideo()
-      console.log("blinked", { blinked });
+      const { left, right } = msg.data;
+      let eyes = "";
+      left && (eyes += "Left eye ");
+      right && (eyes += "Right eye ");
+      if (!eyes) eyes += "idle";
+      this.#eyeStateString = eyes;
+      this.log(this.#eyeStateString);
+      eyes !== 'idle' && this.#view.togglePlayVideo()
     };
 
     return {
@@ -51,18 +55,15 @@ export default class Controller {
     const img = this.#view.getVideoFrame(video);
 
     this.#worker.send(img);
-    this.log("...detecting eye blink");
 
-    setTimeout(() => this.loop(), 200);
+    setTimeout(() => this.loop(), 100);
   }
 
   log(text) {
-    const times = `   - blinked ${this.#blinkCounter} times`;
-    this.#view.log(`${text} ${times}`);
+    this.#view.log(`${text}`);
   }
 
   onBtnStart() {
     this.loop();
-    this.#blinkCounter = 0;
   }
 }
