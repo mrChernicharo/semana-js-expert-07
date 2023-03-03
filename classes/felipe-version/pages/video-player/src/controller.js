@@ -29,6 +29,7 @@ export default class Controller {
 
       const blinked = msg.data.blinked;
       this.#blinkCounter += 1;
+      this.#view.togglePlayVideo()
       console.log("blinked", { blinked });
     };
 
