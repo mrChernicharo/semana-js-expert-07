@@ -32,7 +32,8 @@ export default class Camera {
     // render video
     camera.video.height = 440;
     camera.video.width = 720;
-    document.body.prepend(camera.video);
+    document.body.append(camera.video);
+    // document.body.prepend(camera.video);
 
     // wait for the camera!
     await new Promise((resolve) => {

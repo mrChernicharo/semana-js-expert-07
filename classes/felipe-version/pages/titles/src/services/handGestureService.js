@@ -56,7 +56,7 @@ export default class HandGestureService {
         (keypoint) => keypoint.name === "index_finger_tip"
       );
 
-      console.log({ ...result, emoji: gestureStrings[result.name], hand, gestures, poseData, x, y  });
+      // console.log({ ...result, emoji: gestureStrings[result.name], hand, gestures, poseData, x, y  });
 
       yield { event: result.name, x, y };
     }

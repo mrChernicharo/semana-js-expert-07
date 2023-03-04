@@ -5,6 +5,7 @@ const PaperGesture = new GestureDescription("paper"); // 🖐
 const ScissorsGesture = new GestureDescription("scissors"); // ✌️
 const ScrollUpGesture = new GestureDescription("scroll-up"); // 👍
 const ScrollDownGesture = new GestureDescription("scroll-down"); // 👎
+const HeavyMetalGesture = new GestureDescription('heavy-metal') // 🤘
 
 // Rock
 // -----------------------------------------------------------------------------
@@ -70,12 +71,32 @@ ScrollDownGesture.addDirection(Finger.Thumb, FingerDirection.VerticalDown, 1);
 ScrollDownGesture.addDirection(Finger.Thumb, FingerDirection.DiagonalDownLeft, 0.9);
 ScrollDownGesture.addDirection(Finger.Thumb, FingerDirection.DiagonalDownRight, 0.9);
 
+
+
+// HeavyMetal
+//------------------------------------------------------------------------------
+
+// index and middle finger: stretched out
+HeavyMetalGesture.addCurl(Finger.Index, FingerCurl.NoCurl, 1.0);
+HeavyMetalGesture.addCurl(Finger.Pinky, FingerCurl.NoCurl, 1.0);
+
+// ring: curled
+HeavyMetalGesture.addCurl(Finger.Ring, FingerCurl.FullCurl, 1.0);
+HeavyMetalGesture.addCurl(Finger.Ring, FingerCurl.HalfCurl, 0.9);
+
+// pinky: curled
+HeavyMetalGesture.addCurl(Finger.Middle, FingerCurl.FullCurl, 1.0);
+HeavyMetalGesture.addCurl(Finger.Middle, FingerCurl.HalfCurl, 0.9);
+
+
+
 const knownGestures = [
   // PaperGesture,
   // ScissorsGesture,
   // RockGesture,
   ScrollUpGesture,
   ScrollDownGesture,
+  HeavyMetalGesture,
 ];
 
 const gestureStrings = {
@@ -84,6 +105,7 @@ const gestureStrings = {
   scissors: "✌️",
   "scroll-up": "👍",
   "scroll-down": "👎",
+  "heavy-metal": "🤘",
 };
 
 export { knownGestures, gestureStrings };
