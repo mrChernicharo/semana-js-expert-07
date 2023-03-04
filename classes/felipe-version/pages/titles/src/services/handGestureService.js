@@ -26,12 +26,12 @@ export default class HandGestureService {
       detectorConfig
     );
 
-    console.log('initializeDetector', { detector: this.#detector, model })
+    // console.log('initializeDetector', { detector: this.#detector, model })
 
   }
 
   async estimateHands(video) {
-    console.log('estimateHands', { detector: this.#detector, video })
+    // console.log('estimateHands', { detector: this.#detector, video })
     return this.#detector.estimateHands(video, {
       flipHorizontal: true,
     });
