@@ -14,14 +14,10 @@ async function getWorker() {
   console.warn("webWorkers NOT supported");
   console.log("importing libraries...");
 
-  // prettier-ignore
-  await import ("https://unpkg.com/@tensorflow/tfjs-core@2.4.0/dist/tf-core.js");
-  // prettier-ignore
-  await import ("https://unpkg.com/@tensorflow/tfjs-converter@2.4.0/dist/tf-converter.js");
-  // prettier-ignore
-  await import ("https://unpkg.com/@tensorflow/tfjs-backend-webgl@2.4.0/dist/tf-backend-webgl.js");
-  // prettier-ignore
-  await import ("https://unpkg.com/@tensorflow-models/face-landmarks-detection@0.0.1/dist/face-landmarks-detection.js");
+  await import("https://unpkg.com/@tensorflow/tfjs-core@2.4.0/dist/tf-core.js");
+  await import("https://unpkg.com/@tensorflow/tfjs-converter@2.4.0/dist/tf-converter.js");
+  await import("https://unpkg.com/@tensorflow/tfjs-backend-webgl@2.4.0/dist/tf-backend-webgl.js");
+  await import("https://unpkg.com/@tensorflow-models/face-landmarks-detection@0.0.1/dist/face-landmarks-detection.js");
 
   console.log("libraries loaded!");
 
@@ -50,14 +46,17 @@ async function getWorker() {
   return mockWorker;
 }
 
+const view = new View();
+const [rootPath] = window.location.href.split("/pages/");
+view.setVideoSrc(`${rootPath}/assets/video.mp4`);
+
 const worker = await getWorker();
 const camera = await Camera.init();
 
-const [rootPath] = window.location.href.split("/pages/");
 const factory = {
   async initialize() {
     return Controller.initialize({
-      view: new View(),
+      view,
       worker,
       camera,
     });

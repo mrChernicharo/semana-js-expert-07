@@ -9,6 +9,8 @@ export default class View {
 
   getVideoFrame(video) {
     const canvas = this.#videoFrameCanvas;
+
+    // const [width, height] = [window.screen.width, window.screen.height];
     const [width, height] = [video.videoWidth, video.videoHeight];
 
     canvas.width = width;
@@ -35,5 +37,9 @@ export default class View {
 
   log(text) {
     this.#statusElement.textContent = text;
+  }
+
+  setVideoSrc(url) {
+    this.#videoElement.setAttribute('src', url)
   }
 }

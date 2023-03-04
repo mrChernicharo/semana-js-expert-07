@@ -92,8 +92,9 @@ export default class HandGestureView {
       clientY: rect.top + y,
     };
 
-    const clickEvent = new MouseEvent("click", eventOpts);
     element?.focus && element.focus();
+
+    const clickEvent = new MouseEvent("click", eventOpts);
     element.dispatchEvent(clickEvent);
 
     console.log({ clickEvent, element, x, y, rect });

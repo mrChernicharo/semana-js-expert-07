@@ -7,7 +7,6 @@ export default class Controller {
     this.#view = view;
     this.#camera = camera;
     this.#worker = this.#configureWorker(worker);
-
     this.#view.configureOnBtnClick(this.onBtnStart.bind(this));
   }
 
@@ -34,7 +33,7 @@ export default class Controller {
       if (!eyes) eyes += "idle";
       this.#eyeStateString = eyes;
       this.log(this.#eyeStateString);
-      eyes !== 'idle' && this.#view.togglePlayVideo()
+      eyes !== "idle" && this.#view.togglePlayVideo();
     };
 
     return {

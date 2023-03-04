@@ -53,8 +53,8 @@ for (let finger of [Finger.Index, Finger.Middle, Finger.Ring, Finger.Pinky]) {
 }
 
 ScrollUpGesture.addDirection(Finger.Thumb, FingerDirection.VerticalUp, 1);
-ScrollUpGesture.addDirection(Finger.Thumb, FingerDirection.DiagonalUpLeft, 0.9);
-ScrollUpGesture.addDirection(Finger.Thumb, FingerDirection.DiagonalUpRight, 0.9);
+// ScrollUpGesture.addDirection(Finger.Thumb, FingerDirection.DiagonalUpLeft, 0.9);
+// ScrollUpGesture.addDirection(Finger.Thumb, FingerDirection.DiagonalUpRight, 0.9);
 
 // Scroll down
 //------------------------------------------------------------------------------
