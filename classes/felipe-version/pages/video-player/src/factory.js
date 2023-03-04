@@ -48,7 +48,10 @@ async function getWorker() {
 
 const view = new View();
 const [rootPath] = window.location.href.split("/pages/");
+console.log({ rootPath });
+
 view.setVideoSrc(`${rootPath}/assets/video.mp4`);
+view.configureBackLink(`${rootPath}/pages/titles`)
 
 const worker = await getWorker();
 const camera = await Camera.init();

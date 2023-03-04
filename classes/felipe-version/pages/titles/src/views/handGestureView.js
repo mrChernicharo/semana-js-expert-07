@@ -80,7 +80,8 @@ export default class HandGestureView {
   }
 
   clickOnElement(x, y) {
-    const element = document.elementFromPoint(x, y);
+    console.log(x, y);
+    const element = document.elementFromPoint(x - 32, y);
     if (!element) return;
 
     const rect = element.getBoundingClientRect();

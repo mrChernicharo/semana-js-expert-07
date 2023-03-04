@@ -10,7 +10,7 @@ Marque esse projeto com uma estrela 🌟
 
 ## Live Demo
 
-(Click here)[https://mrchernicharo.github.io/semana-js-expert-07/classes/felipe-version/]
+[Click here](https://mrchernicharo.github.io/semana-js-expert-07/classes/felipe-version/)
 
 ## Pre-reqs
 

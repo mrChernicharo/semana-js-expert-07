@@ -6,6 +6,12 @@ export default class View {
     willReadFrequently: true,
   });
   #videoElement = document.querySelector("#video");
+  #backLink = document.querySelector('#back-link');
+
+  configureBackLink(url) {
+    this.#backLink.setAttribute('href', url)
+  }
+  
 
   getVideoFrame(video) {
     const canvas = this.#videoFrameCanvas;

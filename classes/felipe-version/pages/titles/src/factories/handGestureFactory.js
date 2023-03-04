@@ -15,14 +15,10 @@ import { fingerLookupIndices, gestureStrings, knownGestures } from "../util/util
 const camera = await Camera.init();
 
 
-// (async () => {
   let styler = new PseudoStyler();
-//   await styler.loadDocumentStyles();
-//   document.getElementById('button').addEventListener('click', () => {
-//     const element = document.querySelector('#test');
-//     styler.toggleStyle(element, ':hover');
-//   });
-// })();
+
+const [rootPath] = window.location.href.split("/pages/");
+console.log({ rootPath, window });
 
 const handGestureFactory = {
   async initialize() {
