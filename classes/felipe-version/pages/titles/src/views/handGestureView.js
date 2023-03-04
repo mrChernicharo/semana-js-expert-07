@@ -2,11 +2,13 @@ export default class HandGestureView {
   #handsCanvas = document.querySelector("canvas#hands");
   #canvasContext = this.#handsCanvas.getContext("2d");
   #fingerLookupIndices;
-
-  constructor({ fingerLookupIndices }) {
+  #styler;
+  constructor({ fingerLookupIndices, styler }) {
     this.#handsCanvas.width = globalThis.screen.availWidth;
     this.#handsCanvas.height = globalThis.screen.availHeight;
     this.#fingerLookupIndices = fingerLookupIndices;
+    this.#styler = styler;
+    setTimeout(() => styler.loadDocumentStyles(), 500);
   }
 
   clearCanvas() {
@@ -18,7 +20,7 @@ export default class HandGestureView {
       if (!keypoints) continue;
 
       this.#canvasContext.fillStyle = handedness === "Left" ? "crimson" : "dodgerblue";
-      this.#canvasContext.strokeStyle = "white";
+      this.#canvasContext.strokeStyle = handedness === "Left" ? "crimson" : "dodgerblue";
       this.#canvasContext.lineWidth = 8;
       this.#canvasContext.lineJoin = "round";
 
@@ -43,8 +45,21 @@ export default class HandGestureView {
       }
 
       this.#canvasContext.stroke(path);
+      this.#hoverElements(finger, points);
       // console.log({ finger, points, keypoints });
     }
+  }
+
+  #hoverElements(finger, points) {
+    if (finger != "indexFinger") return;
+
+    const tip = points.find((item) => item.name === "index_finger_tip");
+    const element = document.elementFromPoint(tip.x, tip.y);
+    if (!element) return;
+    const cb = () => this.#styler.toggleStyle(element, ":hover");
+    cb();
+    setTimeout(() => cb(), 500);
+    // console.log({ element, tip });
   }
 
   #drawJoints(keypoints) {
@@ -62,6 +77,26 @@ export default class HandGestureView {
       // this.#canvasContext.arc(newX, newY, radius, startAngle, endAngle);
       this.#canvasContext.fill();
     }
+  }
+
+  clickOnElement(x, y) {
+    const element = document.elementFromPoint(x, y);
+    if (!element) return;
+
+    const rect = element.getBoundingClientRect();
+    const eventOpts = {
+      view: window,
+      bubbles: true,
+      cancelable: true,
+      clientX: rect.left + x,
+      clientY: rect.top + y,
+    };
+
+    const clickEvent = new MouseEvent("click", eventOpts);
+    element?.focus && element.focus();
+    element.dispatchEvent(clickEvent);
+
+    console.log({ clickEvent, element, x, y, rect });
   }
 
   loop(fn) {

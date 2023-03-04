@@ -9,7 +9,8 @@
   </head>
 
   <body id="body">
-    <canvas id="hands" style="position: fixed"></canvas>
+    <canvas id="hands" style="position: fixed; height: 100vh; z-index: 9999; pointer-events: none;"></canvas>
+    <div id="video-container"></div>
 
     <div class="content">
       <div class="header">
@@ -40,6 +41,7 @@
           </div>
         </div>
       </div>
+
       <div class="top">
         <div class="image-container">
           <div class="left-side">
@@ -165,7 +167,9 @@
       </div>
     </div>
 
-    <script src="./lib/sdk.js"></script>
+    <script type='text/javascript' src='https://cdn.jsdelivr.net/gh/TSedlar/pseudo-styler@1.0.8/pseudostyler.js'></script>
+
+    <!-- <script src="./lib/sdk.js"></script> -->
     <script type="module" src="./src/index.js"></script>
   </body>
 </html>

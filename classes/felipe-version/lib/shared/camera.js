@@ -1,14 +1,13 @@
 export default class Camera {
   video;
+  container;
   constructor() {
     this.video = document.createElement("video");
   }
 
   static async init() {
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-      throw new Error(
-        `Browser Api navigator.mediaDevices.getUserMedia not available`
-      );
+      throw new Error(`Browser Api navigator.mediaDevices.getUserMedia not available`);
     }
 
     const videoConfig = {
@@ -28,21 +27,22 @@ export default class Camera {
 
     camera.video.srcObject = stream;
 
-    
     // render video
     camera.video.height = 440;
     camera.video.width = 720;
     document.body.append(camera.video);
-    // document.body.prepend(camera.video);
-
+    
     // wait for the camera!
     await new Promise((resolve) => {
       camera.video.onloadedmetadata = () => {
         resolve(camera.video);
       };
     });
-
+    
     camera.video.play();
+    this.container = document.querySelector("#video-container");
+    this.container.append(camera.video);
+    // console.log(document, this.container, );
 
     // console.log({ camera, stream, navigator })
     return camera;

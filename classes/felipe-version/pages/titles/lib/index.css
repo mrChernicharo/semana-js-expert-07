@@ -15,6 +15,7 @@
 
 html,
 body {
+    background-color: #141414;
     margin: 0;
     padding: 0;
     width: 100%;
@@ -58,7 +59,7 @@ a {
 /* HEADER */
 .header {
     width: 100%;
-    position: fixed;
+    /* position: fixed; */
     height: 70px;
     background-color: transparent;
     display: flex;

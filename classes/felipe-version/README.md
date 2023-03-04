@@ -52,3 +52,8 @@ Marque esse projeto com uma estrela 🌟
 ### Links
 
 [dependências](https://github.com/ErickWendel/semana-javascript-expert07/blob/main/referencias.md#aula01)
+
+viking*hackerzão
+terminei_só_falta_testar
+na_minha_máquina_funciona
+javascript*é_sensacional

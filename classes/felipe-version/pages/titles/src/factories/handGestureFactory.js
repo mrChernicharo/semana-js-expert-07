@@ -14,12 +14,23 @@ import { fingerLookupIndices, gestureStrings, knownGestures } from "../util/util
 
 const camera = await Camera.init();
 
+
+// (async () => {
+  let styler = new PseudoStyler();
+//   await styler.loadDocumentStyles();
+//   document.getElementById('button').addEventListener('click', () => {
+//     const element = document.querySelector('#test');
+//     styler.toggleStyle(element, ':hover');
+//   });
+// })();
+
 const handGestureFactory = {
   async initialize() {
     return HandGestureController.initialize({
       camera,
       view: new HandGestureView({
         fingerLookupIndices,
+        styler
       }),
       service: new HandGestureService({
         fingerpose: window.fp,
