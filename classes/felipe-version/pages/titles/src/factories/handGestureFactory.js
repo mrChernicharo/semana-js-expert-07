@@ -11,9 +11,11 @@ import HandGestureService from "../services/handGestureService.js";
 import HandGestureView from "../views/handGestureView.js";
 import Camera from '../../../../lib/shared/camera.js'
 
-const camera = Camera.init();
 
 const [rootPath] = window.location.href.split("/pages/");
+
+const camera = await Camera.init();
+
 const handGestureFactory = {
   async initialize() {
     return HandGestureController.initialize({

@@ -25,6 +25,9 @@ export default class HandGestureService {
       model,
       detectorConfig
     );
+
+    console.log('initializeDetector', { detector: this.#detector, model })
+
   }
 
   async estimateHands(video) {
