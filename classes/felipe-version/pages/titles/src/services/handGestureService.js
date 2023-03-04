@@ -42,15 +42,23 @@ export default class HandGestureService {
     for (const hand of predictions) {
       if (!hand.keypoints3D) continue;
 
-      const { gestures, poseData } = await this.getPredictions(hand.keypoints3D);
+      const { gestures, poseData } = await this.getPredictions(
+        hand.keypoints3D
+      );
 
       if (!gestures.length) continue;
 
       const result = gestures.reduce((acc, next) =>
         acc.score > next.score ? acc : next
       );
-      console.log(result, gestureStrings[result.name]);
-      yield result;
+
+      const { x, y } = hand.keypoints.find(
+        (keypoint) => keypoint.name === "index_finger_tip"
+      );
+
+      console.log({ ...result, emoji: gestureStrings[result.name], hand, gestures, poseData, x, y  });
+
+      yield { event: result.name, x, y };
     }
   }
 
