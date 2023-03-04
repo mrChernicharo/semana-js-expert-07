@@ -1,12 +1,14 @@
+import { knownGestures, gestureStrings } from "../util/gestures.js";
+
 export default class HandGestureService {
-  #fingerpose;
   #handPoseDetection;
   #handsVersion;
   #detector = null;
+  #gestureEstimator;
   constructor({ fingerpose, handPoseDetection, handsVersion }) {
-    this.#fingerpose = fingerpose;
     this.#handPoseDetection = handPoseDetection;
     this.#handsVersion = handsVersion;
+    this.#gestureEstimator = new fingerpose.GestureEstimator(knownGestures);
   }
 
   async initializeDetector() {
@@ -27,7 +29,6 @@ export default class HandGestureService {
     );
 
     // console.log('initializeDetector', { detector: this.#detector, model })
-
   }
 
   async estimateHands(video) {
@@ -35,5 +36,34 @@ export default class HandGestureService {
     return this.#detector.estimateHands(video, {
       flipHorizontal: true,
     });
+  }
+
+  async *detectGestures(predictions) {
+    for (const hand of predictions) {
+      if (!hand.keypoints3D) continue;
+
+      const { gestures, poseData } = await this.getPredictions(hand.keypoints3D);
+
+      if (!gestures.length) continue;
+
+      const result = gestures.reduce((acc, next) =>
+        acc.score > next.score ? acc : next
+      );
+      console.log(result, gestureStrings[result.name]);
+      yield result;
+    }
+  }
+
+  async getPredictions(keypoints3D) {
+    const trustLevel = 9;
+    const predictions = await this.#gestureEstimator.estimate(
+      this.#getLandmarksFromKeypoints(keypoints3D),
+      trustLevel
+    );
+    return predictions;
+  }
+
+  #getLandmarksFromKeypoints(keypoints3D) {
+    return keypoints3D.map((point) => [point.x, point.y, point.z]);
   }
 }
