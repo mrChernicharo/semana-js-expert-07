@@ -1,14 +1,16 @@
-import { knownGestures, gestureStrings } from "../util/gestures.js";
-
 export default class HandGestureService {
   #handPoseDetection;
   #handsVersion;
   #detector = null;
   #gestureEstimator;
-  constructor({ fingerpose, handPoseDetection, handsVersion }) {
+  #knownGestures;
+  #gestureStrings;
+  constructor({ fingerpose, handPoseDetection, handsVersion, knownGestures, gestureStrings }) {
     this.#handPoseDetection = handPoseDetection;
     this.#handsVersion = handsVersion;
     this.#gestureEstimator = new fingerpose.GestureEstimator(knownGestures);
+    this.#knownGestures = knownGestures;
+    this.#gestureStrings = gestureStrings;
   }
 
   async initializeDetector() {
@@ -17,16 +19,11 @@ export default class HandGestureService {
     const model = handPoseDetection.SupportedModels.MediaPipeHands;
     const detectorConfig = {
       runtime: "mediapipe", // or 'tfjs',
-      solutionPath: `https://cdn.jsdelivr.net/npm/@mediapipe/hands@${
-        this.#handsVersion
-      }`, // freeze version
+      solutionPath: `https://cdn.jsdelivr.net/npm/@mediapipe/hands@${this.#handsVersion}`, // freeze version
       modelType: "lite", // or 'full'
       maxHands: 2,
     };
-    this.#detector = await this.#handPoseDetection.createDetector(
-      model,
-      detectorConfig
-    );
+    this.#detector = await this.#handPoseDetection.createDetector(model, detectorConfig);
 
     // console.log('initializeDetector', { detector: this.#detector, model })
   }
@@ -42,21 +39,15 @@ export default class HandGestureService {
     for (const hand of predictions) {
       if (!hand.keypoints3D) continue;
 
-      const { gestures, poseData } = await this.getPredictions(
-        hand.keypoints3D
-      );
+      const { gestures, poseData } = await this.getPredictions(hand.keypoints3D);
 
       if (!gestures.length) continue;
 
-      const result = gestures.reduce((acc, next) =>
-        acc.score > next.score ? acc : next
-      );
+      const result = gestures.reduce((acc, next) => (acc.score > next.score ? acc : next));
 
-      const { x, y } = hand.keypoints.find(
-        (keypoint) => keypoint.name === "index_finger_tip"
-      );
+      const { x, y } = hand.keypoints.find((keypoint) => keypoint.name === "index_finger_tip");
 
-      // console.log({ ...result, emoji: gestureStrings[result.name], hand, gestures, poseData, x, y  });
+      // console.log({ ...result, emoji: this.#gestureStrings[result.name], hand, gestures, poseData, x, y  }); 
 
       yield { event: result.name, x, y };
     }
@@ -64,10 +55,7 @@ export default class HandGestureService {
 
   async getPredictions(keypoints3D) {
     const trustLevel = 9;
-    const predictions = await this.#gestureEstimator.estimate(
-      this.#getLandmarksFromKeypoints(keypoints3D),
-      trustLevel
-    );
+    const predictions = await this.#gestureEstimator.estimate(this.#getLandmarksFromKeypoints(keypoints3D), trustLevel);
     return predictions;
   }
 

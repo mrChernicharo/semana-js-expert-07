@@ -24,9 +24,7 @@ export default class HandGestureController {
   #scrollPage(direction) {
     if (this.#lastDirection.direction === direction) {
       this.#lastDirection.y =
-        direction === "scroll-down"
-          ? this.#lastDirection.y + pixelsPerScroll
-          : this.#lastDirection.y - pixelsPerScroll;
+        direction === "scroll-down" ? this.#lastDirection.y + pixelsPerScroll : this.#lastDirection.y - pixelsPerScroll;
     } else {
       this.#lastDirection.direction = direction;
     }
@@ -37,6 +35,12 @@ export default class HandGestureController {
   async #estimateHands() {
     try {
       const hands = await this.#service.estimateHands(this.#camera.video);
+
+      this.#view.clearCanvas();
+
+      if (hands?.length) {
+        this.#view.drawResults(hands);
+      }
 
       for await (const { event, x, y } of this.#service.detectGestures(hands)) {
         console.log({ event, x, y });
