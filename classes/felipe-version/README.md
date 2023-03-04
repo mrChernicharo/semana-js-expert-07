@@ -12,6 +12,10 @@ Marque esse projeto com uma estrela 🌟
 
 - Este projeto foi criado usando Node.js v19.6
 
+## Live Demo
+
+(Click here)[https://mrchernicharo.github.io/semana-js-expert-07/classes/felipe-version/]
+
 ## Running
 
 - Execute `npm ci` para restaurar os pacotes
@@ -53,7 +57,7 @@ Marque esse projeto com uma estrela 🌟
 
 [dependências](https://github.com/ErickWendel/semana-javascript-expert07/blob/main/referencias.md#aula01)
 
-viking*hackerzão
+viking_hackerzão
 terminei_só_falta_testar
 na_minha_máquina_funciona
-javascript*é_sensacional
+javascript\*é_sensacional
